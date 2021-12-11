@@ -8,15 +8,30 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "12.0.4",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "@emotion/cache": "latest",
+    "@emotion/eslint-plugin": "^11.5.0",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "^5.1.1",
+    "@mui/material": "^5.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "clsx": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "rss-parser": "^3.12.0"
   },
   "devDependencies": {
-    "@types/node": "16.11.9",
-    "@types/react": "17.0.35",
-    "eslint": "7",
+    "@next/eslint-plugin-next": "^12.0.4",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "<8.0.0\n",
     "eslint-config-next": "12.0.4",
-    "typescript": "4.5.2"
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.4.1",
+    "sqlite3": "^5.0.2",
+    "typescript": "latest"
   }
 }
