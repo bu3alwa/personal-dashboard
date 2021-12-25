@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
-import useUser from '../utils/hooks';
+import useUser from '../src/utils/hooks';
 import axios, { AxiosError } from 'axios';
 import Alert from '@mui/material/Alert';
 import { Box, Button, CircularProgress, Collapse, Grid, IconButton, Paper, TextField, Typography } from '@mui/material';

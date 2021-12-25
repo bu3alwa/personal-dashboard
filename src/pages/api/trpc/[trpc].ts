@@ -1,22 +1,25 @@
+import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
-import { inferProcedureOutput } from '@trpc/server';
-import { AppRouter, appRouter } from '@/server/routers/_app';
-import { createContext } from '@/server/context';
+import { z } from 'zod';
 
-// tRPC's HTTP response handler
-export default trpcNext.createNextApiHandler({
-  router: appRouter,
-  createContext,
-  onError({ error }) {
-    if (error.code === 'INTERNAL_SERVER_ERROR') {
-      console.error('Something went wrong', error);
-    }
-  },
-  batching: {
-    enabled: true,
+const appRouter = trpc.router().query('hello', {
+  input: z
+    .object({
+      text: z.string().nullish(),
+    })
+    .nullish(),
+  resolve({ input }) {
+    return {
+      greeting: `hello ${input?.text ?? 'world'}`,
+    };
   },
 });
 
-export type inferQueryResponse<TRouteKey extends keyof AppRouter['_def']['queries']> = inferProcedureOutput<
-  AppRouter['_def']['queries'][TRouteKey]
->;
+// export type definition of API
+export type AppRouter = typeof appRouter;
+
+// export API handler
+export default trpcNext.createNextApiHandler({
+  router: appRouter,
+  createContext: () => null,
+});

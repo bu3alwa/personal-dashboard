@@ -1,6 +1,6 @@
 import router from 'next/router';
 import { useEffect } from 'react';
-import useUser from '../../utils/hooks';
+import useUser from '../../src/utils/hooks';
 
 /**
  * Guard against unauthenitcated users for frontend

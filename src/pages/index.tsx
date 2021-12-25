@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { NextPage } from 'next'
 import * as React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +14,7 @@ import Grid from '@mui/material/Grid';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import theme from '../theme';
+import theme from '../src/theme';
 import { navItems } from './navitems';
 import AppBarComponent from './components/AppBarComponent';
 import DrawerComponent from './components/DrawerComponent';
@@ -47,7 +47,13 @@ const Home: NextPage = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
               Dashboard
             </Typography>
             <IconButton color="inherit">
@@ -57,7 +63,10 @@ const Home: NextPage = () => {
             </IconButton>
           </Toolbar>
         </AppBarComponent>
-        <DrawerComponent variant="permanent" open={open}>
+        <DrawerComponent
+          variant="permanent"
+          open={open}
+        >
           <Toolbar
             sx={{
               display: 'flex',
@@ -76,8 +85,10 @@ const Home: NextPage = () => {
         <Box
           component="main"
           sx={{
-            backgroundColor: theme =>
-              theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[900],
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
@@ -87,13 +98,15 @@ const Home: NextPage = () => {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}></Grid>
+              <Grid item xs={12} md={8} lg={9}>
+                
+              </Grid>
             </Grid>
           </Container>
         </Box>
       </Box>
     </ThemeProvider>
   );
-};
+}
 
-export default Home;
+export default Home
