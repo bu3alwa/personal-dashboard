@@ -20,6 +20,10 @@
     "@mui/icons-material": "^5.1.1",
     "@mui/material": "^5.1.1",
     "@prisma/client": "^3.7.0",
+    "@trpc/client": "^9.16.0",
+    "@trpc/next": "^9.16.0",
+    "@trpc/react": "^9.16.0",
+    "@trpc/server": "^9.16.0",
     "@types/axios": "^0.14.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.5.6",
@@ -44,10 +48,13 @@
     "passport-jwt": "^4.0.0",
     "passport-local-mongoose": "^6.1.0",
     "pino-pretty": "^7.3.0",
+    "prisma": "^3.7.0",
     "react": "latest",
     "react-dom": "latest",
+    "react-query": "^3.34.6",
     "rss-parser": "^3.12.0",
-    "swr": "^1.1.2-beta.0"
+    "swr": "^1.1.2-beta.0",
+    "zod": "^3.11.6"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.0.4",
