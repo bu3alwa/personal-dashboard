@@ -1,9 +1,10 @@
+import { JWT_SECRET } from '@/utils/secrets';
 import bcrypt from 'bcryptjs';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { prisma } from '@/utils/prisma';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { trpc } from '@/utils/trpc';
+import { prisma } from '@/utils/prisma';
 
 /**
  * NextAuth provider implementation
@@ -12,7 +13,6 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'Credentials',
       // The credentials is used to generate a suitable form on the sign in page.
       // You can specify whatever fields you are expecting to be submitted.
@@ -26,8 +26,10 @@ export default NextAuth({
         const username = credentials?.username;
         const password = credentials?.password;
 
+        // Check for undefined
         if (username == null || password == null) return null;
 
+        // Query requested user
         const userQuery = await trpc.useQuery(['user.get', { username }]);
 
         // On error return null
@@ -45,4 +47,24 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (user?.type) {
+        token.status = user.type;
+      }
+      if (user?.username) {
+        token.username = user.username;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.type = token.type;
+      session.username = token.username;
+      return session;
+    },
+  },
+  jwt: {
+    secret: JWT_SECRET,
+    maxAge: 60 * 60 * 24,
+  },
 });
