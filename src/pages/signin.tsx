@@ -1,70 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import Router from 'next/router';
-import useUser from '../utils/hooks';
-import axios, { AxiosError } from 'axios';
 import Alert from '@mui/material/Alert';
 import { Box, Button, CircularProgress, Collapse, Grid, IconButton, Paper, TextField, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Face, Fingerprint } from '@mui/icons-material';
+import { getCsrfToken } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
+import { signIn } from 'next-auth/react';
 
 /**
  * Login page frontend ui
  */
-export default function LoginPage() {
-  const [user, { mutate }] = useUser();
+export default function SigninPage({ csrfToken }: SigninPageProps) {
   const [errorMsg, setErrorMsg] = useState('');
   const [open, setOpen] = useState(true);
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
-    setLoading(true);
 
     const target = e.target as typeof e.target & {
       username: { value: string };
       password: { value: string };
     };
 
-    const params = new URLSearchParams();
-    params.append('username', target.username.value);
-    params.append('password', target.password.value);
-
-    try {
-      let res = await axios.post('/api/auth/login', params, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'access-control-allow-origin': '*',
-        },
-      });
-
-      if (res.status == 201) {
-        localStorage.setItem('token', res.data.token);
-        mutate(res.data.username);
-      }
-    } catch (error: any | AxiosError) {
-      if (axios.isAxiosError(error)) {
-        const err = error as AxiosError;
-        if (err.response?.status == 401) {
-          setErrorMsg('Incorrect username or password.');
-          setOpen(true);
-          setLoading(false);
-        } else {
-          setErrorMsg('Something went wrong.');
-          setOpen(true);
-          setLoading(false);
-        }
-      } else {
-        console.log(error);
-      }
-    }
+    signIn('credentials', { username: target.username.value, password: target.password.value });
+    setLoading(true);
   }
-
-  useEffect(() => {
-    if (user) {
-      Router.push('/');
-      setLoading(false);
-    }
-  }, [user]);
 
   return (
     <>
@@ -73,7 +34,7 @@ export default function LoginPage() {
           <Paper sx={{ p: 4, m: 4 }} elevation={10}>
             <Grid container spacing={0} direction="column" alignItems="center" justifyContent="center">
               <Grid item sx={{ mb: 3, p: 3 }}>
-                <Typography variant="h3">Login</Typography>
+                <Typography variant="h3">Sign in</Typography>
               </Grid>
             </Grid>
             <Grid container spacing={0} direction="column" alignItems="center" justifyContent="center">
@@ -111,12 +72,13 @@ export default function LoginPage() {
               )}
             </Grid>
             <form onSubmit={onSubmit}>
+              <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <Grid container spacing={2} mb={2} alignItems="flex-end">
                 <Grid item>
                   <Face />
                 </Grid>
                 <Grid item md={true} sm={true} xs={true}>
-                  <TextField id="username" label="Username" fullWidth autoFocus required />
+                  <TextField id="username" name="username" label="Username" type="text" fullWidth autoFocus required />
                 </Grid>
               </Grid>
               <Grid container spacing={2} alignItems="flex-end">
@@ -124,7 +86,7 @@ export default function LoginPage() {
                   <Fingerprint />
                 </Grid>
                 <Grid item md={true} sm={true} xs={true}>
-                  <TextField id="password" label="Password" type="password" fullWidth required />
+                  <TextField id="password" name="password" label="Password" type="password" fullWidth required />
                 </Grid>
               </Grid>
               <Grid container spacing={0} direction="column" alignItems="center" justifyContent="center">
@@ -135,7 +97,7 @@ export default function LoginPage() {
                   color="primary"
                   style={{ textTransform: 'none' }}
                 >
-                  Login
+                  Sign in
                 </Button>
               </Grid>
             </form>
@@ -144,4 +106,15 @@ export default function LoginPage() {
       </Box>
     </>
   );
+}
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  const csrfToken = await getCsrfToken(context);
+  return {
+    props: { csrfToken },
+  };
+};
+
+interface SigninPageProps {
+  csrfToken?: string | undefined;
 }

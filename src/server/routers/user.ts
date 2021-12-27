@@ -4,6 +4,8 @@ import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcryptjs';
 
 export const userRouter = createRouter()
+  // TODO: Protect this endpoint and only return same user
+  // from provided token
   .query('get', {
     input: z.object({
       username: z.string(),
@@ -11,7 +13,7 @@ export const userRouter = createRouter()
     async resolve({ ctx, input }) {
       const { username } = input;
       const user = await ctx.prisma.user.findUnique({
-        where: { username: username },
+        where: { name: username },
       });
       if (!user) {
         throw new TRPCError({
@@ -19,16 +21,39 @@ export const userRouter = createRouter()
           message: `No user with username '${username}'`,
         });
       }
-      return user;
+      return { username: user.name };
     },
   })
-  .query('all', {
-    async resolve({ ctx }) {
-      return ctx.prisma.user.findMany({
-        select: {
-          id: true,
-        },
+  .mutation('login', {
+    input: z.object({
+      username: z.string(),
+      password: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      const { username, password } = input;
+      const user = await ctx.prisma.user.findUnique({
+        where: { name: username },
       });
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No username or password`,
+        });
+      }
+
+      const hashcompare = await bcrypt.compare(password, user.password);
+      if (hashcompare) {
+        return {
+          name: user.name,
+          id: user.id,
+        };
+      } else {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No username or password`,
+        });
+      }
     },
   })
   .mutation('create', {
@@ -54,10 +79,10 @@ export const userRouter = createRouter()
       const passwordHash = await bcrypt.hashSync(password, 10);
       const user = await ctx.prisma.user.create({
         data: {
-          username: username,
+          name: username,
           password: passwordHash,
         },
       });
-      return user;
+      return { username: user.name };
     },
   });

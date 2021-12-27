@@ -1,13 +1,8 @@
-import { useEffect } from 'react';
+import { signOut } from 'next-auth/react';
 
 export default function logoutPage() {
-  useEffect(() => {
-    try {
-      localStorage.removeItem('token');
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  signOut();
+
   return (
     <>
       <h1>Logged out</h1>

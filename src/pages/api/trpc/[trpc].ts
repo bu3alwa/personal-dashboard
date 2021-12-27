@@ -1,5 +1,5 @@
 import * as trpcNext from '@trpc/server/adapters/next';
-import { AppRouter, appRouter } from '@/server/routers/_app';
+import { appRouter } from '@/server/routers/_app';
 import { createContext } from '@/server/context';
 
 // tRPC's HTTP response handler

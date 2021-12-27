@@ -1,9 +1,8 @@
-import { JWT_SECRET } from '@/utils/secrets';
-import bcrypt from 'bcryptjs';
+import { JWT_SECRET, SECRET } from '@/utils/secrets';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { trpc } from '@/utils/trpc';
+import bcrypt from 'bcryptjs';
 import { prisma } from '@/utils/prisma';
 
 /**
@@ -29,42 +28,47 @@ export default NextAuth({
         // Check for undefined
         if (username == null || password == null) return null;
 
-        // Query requested user
-        const userQuery = await trpc.useQuery(['user.get', { username }]);
+        const query = await prisma.user.findUnique({
+          where: { name: username },
+        });
 
-        // On error return null
-        if (userQuery.error) return null;
+        type userType = typeof query;
+        const user: userType = query;
 
-        // If no error and we have user data, return it
-        const { data } = userQuery;
-        if (data) {
-          const res = await bcrypt.compare(password, data.password);
-          if (res) return data;
-        }
+        if (!user) return null;
 
-        // Return null if user data could not be retrieved
-        return null;
+        const hashcompare = await bcrypt.compare(password, user.password);
+
+        if (!hashcompare) return null;
+
+        return user;
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
-      if (user?.type) {
-        token.status = user.type;
-      }
-      if (user?.username) {
-        token.username = user.username;
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
       }
       return token;
     },
     async session({ session, token }) {
-      session.type = token.type;
-      session.username = token.username;
+      session.token = token;
+
       return session;
     },
   },
   jwt: {
     secret: JWT_SECRET,
     maxAge: 60 * 60 * 24,
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 60 * 60 * 24,
+  },
+  secret: SECRET,
+  pages: {
+    signOut: 'signout',
+    signIn: '/signin',
   },
 });

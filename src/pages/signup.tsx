@@ -17,11 +17,19 @@ import Router from 'next/router';
 import React, { useState } from 'react';
 
 export default function SignupPage() {
-  const mutation = trpc.useMutation(['user.create']);
   const [errorMsg, setErrorMsg] = useState('');
   const [open, setOpen] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const mutation = trpc.useMutation(['user.create'], {
+    onSuccess: async () => {
+      Router.push('/signin');
+    },
+    onError: async () => {
+      setErrorMsg('Something went wrong');
+      setOpen(true);
+    },
+  });
   async function onSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     setLoading(true);
@@ -30,18 +38,12 @@ export default function SignupPage() {
       username: { value: string };
       password: { value: string };
     };
-    try {
-      // password gets hashed in mutation
-      mutation.mutate({
-        username: target.username.value,
-        password: target.password.value,
-      });
 
-      // Router.push('/signin');
-    } catch (error) {
-      setErrorMsg('Something went wrong');
-      setOpen(true);
-    }
+    const mut = mutation.mutate({
+      username: target.username.value,
+      password: target.password.value,
+    });
+
     setLoading(false);
   }
 
