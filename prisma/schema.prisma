@@ -55,3 +55,9 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verificationtokens")
 }
+
+model task {
+  id           String   @id @default(cuid())
+  task         String
+  userId       String   @map("user_id")
+}

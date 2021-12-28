@@ -43,17 +43,16 @@ export const userRouter = createRouter()
       }
 
       const hashcompare = await bcrypt.compare(password, user.password);
-      if (hashcompare) {
-        return {
-          name: user.name,
-          id: user.id,
-        };
-      } else {
+      if (!hashcompare) {
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: `No username or password`,
         });
       }
+      return {
+        name: user.name,
+        id: user.id,
+      };
     },
   })
   .mutation('create', {
