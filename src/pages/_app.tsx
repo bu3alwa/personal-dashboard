@@ -63,7 +63,7 @@ MyApp.propTypes = {
  * TRPC with main app export
  */
 export default withTRPC<AppRouter>({
-  config({ ctx }) {
+  config(/*{ ctx }*/) {
     /**
      * If you want to use SSR, you need to use the server's full URL
      * @link https://trpc.io/docs/ssr

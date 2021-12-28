@@ -39,7 +39,7 @@ export default function SignupPage() {
       password: { value: string };
     };
 
-    const mut = mutation.mutate({
+    mutation.mutate({
       username: target.username.value,
       password: target.password.value,
     });

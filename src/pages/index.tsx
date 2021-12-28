@@ -1,9 +1,8 @@
 import type { NextPage } from 'next';
 import * as React from 'react';
 import { useSession } from 'next-auth/react';
-import Router from 'next/router';
 import { useEffect } from 'react';
-import { MainLayout } from './components/MainLayout';
+import { MainLayout } from '@/components/MainLayout';
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();

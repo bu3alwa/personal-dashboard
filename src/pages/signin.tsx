@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import { Box, Button, CircularProgress, Collapse, Grid, IconButton, Paper, TextField, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,7 +11,7 @@ import { signIn } from 'next-auth/react';
  * Login page frontend ui
  */
 export default function SigninPage({ csrfToken }: SigninPageProps) {
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg] = useState('');
   const [open, setOpen] = useState(true);
   const [loading, setLoading] = useState(false);
 

@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { grey, red } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 
 // A custom theme for this app
 const theme = createTheme({
@@ -14,23 +14,21 @@ const theme = createTheme({
       main: red.A400,
     },
     warning: {
-        main: '#ed6c02',
-    }
+      main: '#ed6c02',
+    },
   },
   components: {
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          background: "#32383D"
-        }
-      }
+          background: '#32383D',
+        },
+      },
     },
     MuiIcon: {
-      styleOverrides: {
-        
-      }
-    }
-  }
+      styleOverrides: {},
+    },
+  },
 });
 
 export default theme;
