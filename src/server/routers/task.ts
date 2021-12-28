@@ -3,6 +3,9 @@ import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { jwtMiddleware, jwtUserId } from '../utils/jwt';
 
+/**
+ * CRUD Api for tasks
+ */
 export const taskRouter = createRouter()
   .middleware(async ({ ctx, next }) => {
     const token = jwtMiddleware(ctx.req);
