@@ -3,7 +3,7 @@ import { CssBaseline, Toolbar, IconButton, Typography, Badge, Divider, List, Con
 import { ThemeProvider } from '@mui/private-theming';
 import { Box } from '@mui/system';
 import React from 'react';
-import { navItems } from './navitems';
+import NavItems from './NavItems';
 import AppBarComponent from './AppBarComponent';
 import DrawerComponent from './DrawerComponent';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -67,7 +67,9 @@ export const MainLayout: React.FC<Props> = ({ children }: Props) => {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List>{navItems}</List>
+          <List>
+            <NavItems />
+          </List>
         </DrawerComponent>
         <Box
           component="main"
