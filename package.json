@@ -13,8 +13,8 @@
     "start-server": "dotenv -e .env.test -- next start",
     "test": "yarn docker:up && dotenv -e .env.test -- yarn prisma migrate deploy && playwright test && yarn docker:down",
     "ci": "start-server-and-test 'yarn start-server' http://localhost:3000 'yarn test'",
-    "prepare": "husky install",
-    "pre-commit": "next lint"
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@emotion/cache": "latest",
@@ -83,7 +83,12 @@
     "eslint-config-next": "12.0.4",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^7.0.4",
+    "lint-staged": ">=10",
     "prettier": "^2.5.1",
     "typescript": "^4.5.3"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

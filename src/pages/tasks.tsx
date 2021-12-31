@@ -9,6 +9,8 @@ import { sessionProps } from '@/utils/session';
 const TasksPage: NextPage = () => {
   const { data: session } = useSession();
 
+  if (!session) console.log('placeholder');
+
   const [_, setTitle] = useRecoilState(titleState);
   setTitle('Tasks');
 

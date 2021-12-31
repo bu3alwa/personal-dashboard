@@ -1,5 +1,5 @@
 import theme from '@/theme';
-import { CssBaseline, Toolbar, IconButton, Typography, Badge, Divider, List, Container, Grid } from '@mui/material';
+import { CssBaseline, Toolbar, IconButton, Typography, Divider, List, Container, Grid } from '@mui/material';
 import { ThemeProvider } from '@mui/private-theming';
 import { Box } from '@mui/system';
 import React from 'react';
@@ -20,7 +20,7 @@ type Props = {
  * Main Layout for the app
  */
 export const MainLayout: React.FC<Props> = ({ children }: Props) => {
-  const [title, setTitle] = useRecoilState(titleState);
+  const [title] = useRecoilState(titleState);
   const [open, setOpen] = React.useState(true);
 
   const toggleDrawer = () => {
