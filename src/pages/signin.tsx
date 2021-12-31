@@ -23,7 +23,7 @@ export default function SigninPage({ csrfToken }: SigninPageProps) {
       password: { value: string };
     };
 
-    signIn('credentials', { username: target.username.value, password: target.password.value });
+    signIn('credentials', { username: target.username.value, password: target.password.value, callbackUrl: '/' });
     setLoading(true);
   }
 
