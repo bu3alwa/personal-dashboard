@@ -7,10 +7,11 @@ import { titleState } from '@/states/title';
 import { useRecoilState } from 'recoil';
 import { sessionProps } from '@/utils/session';
 
-const Home: NextPage = () => {
+const MarketsPage: NextPage = () => {
   const { data: session, status } = useSession();
+
   const [_, setTitle] = useRecoilState(titleState);
-  setTitle('Dashboard');
+  setTitle('News');
 
   useEffect(() => {
     if (status == 'unauthenticated') console.log(status); //Router.push('/signin');
@@ -19,11 +20,11 @@ const Home: NextPage = () => {
 
   return (
     <MainLayout>
-      <h1>Dashboard</h1>
+      <h1>Task</h1>
     </MainLayout>
   );
 };
 
-export default Home;
+export default MarketsPage;
 
 export const getServerSideProps: GetServerSideProps = sessionProps;

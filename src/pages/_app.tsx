@@ -30,6 +30,7 @@ interface MyAppProps extends AppProps {
  */
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { session, ...pageProps2 } = pageProps;
   const description = 'Personal dashboard';
   const title = 'Personal Dashboard';
 
@@ -45,9 +46,9 @@ function MyApp(props: MyAppProps) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <SessionProvider>
+        <SessionProvider session={session}>
           <RecoilRoot>
-            <Component {...pageProps} />
+            <Component {...pageProps2} />
           </RecoilRoot>
         </SessionProvider>
       </ThemeProvider>
