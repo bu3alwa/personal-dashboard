@@ -8,13 +8,19 @@ import AppBarComponent from './AppBarComponent';
 import DrawerComponent from './DrawerComponent';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useRecoilState } from 'recoil';
+import { titleState } from '@/states/title';
 
+// prop definition
 type Props = {
   children: JSX.Element;
 };
 
+/**
+ * Main Layout for the app
+ */
 export const MainLayout: React.FC<Props> = ({ children }: Props) => {
+  const [title, setTitle] = useRecoilState(titleState);
   const [open, setOpen] = React.useState(true);
 
   const toggleDrawer = () => {
@@ -44,13 +50,8 @@ export const MainLayout: React.FC<Props> = ({ children }: Props) => {
               <MenuIcon />
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              Dashboard
+              {title}
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBarComponent>
         <DrawerComponent variant="permanent" open={open}>
@@ -84,8 +85,9 @@ export const MainLayout: React.FC<Props> = ({ children }: Props) => {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {children}
-              <Grid item xs={12} md={8} lg={9}></Grid>
+              <Grid item xs={12} md={8} lg={9}>
+                {children}
+              </Grid>
             </Grid>
           </Container>
         </Box>
