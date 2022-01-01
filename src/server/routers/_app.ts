@@ -24,6 +24,6 @@ export const appRouter = createRouter()
    */
   // .formatError(({ shape, error }) => { })
   .merge('user.', userRouter)
-  .merge('task', taskRouter);
+  .merge('task.', taskRouter);
 
 export type AppRouter = typeof appRouter;
