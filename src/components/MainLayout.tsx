@@ -1,8 +1,19 @@
 import theme from '@/theme';
-import { CssBaseline, Toolbar, IconButton, Typography, Divider, List, Container, Grid } from '@mui/material';
+import {
+  CssBaseline,
+  Toolbar,
+  IconButton,
+  Typography,
+  Divider,
+  List,
+  Container,
+  Grid,
+  Alert,
+  Collapse,
+} from '@mui/material';
 import { ThemeProvider } from '@mui/private-theming';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useState } from 'react';
 import NavItems from './NavItems';
 import AppBarComponent from './AppBarComponent';
 import DrawerComponent from './DrawerComponent';
@@ -10,7 +21,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useRecoilState } from 'recoil';
 import { titleState } from '@/states/title';
+import { errorMsgState } from '@/states/errorMsg';
 import { useSession } from 'next-auth/react';
+import CloseIcon from '@mui/icons-material/Close';
 
 // prop definition
 type Props = {
@@ -22,19 +35,21 @@ type Props = {
  */
 export const MainLayout: React.FC<Props> = ({ children }: Props) => {
   const [title] = useRecoilState(titleState);
-  const [open, setOpen] = React.useState(true);
+  const [openDrawer, setOpenDrawer] = useState(true);
+  const [openErrorMsg, setOpenErrorMsg] = useState(false);
   const session = useSession();
+  const [errorMsg, setErrorMsg] = useRecoilState(errorMsgState);
   const user = session.data?.user?.name;
 
   const toggleDrawer = () => {
-    setOpen(!open);
+    setOpenDrawer(!open);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBarComponent color="primary" position="absolute" open={open}>
+        <AppBarComponent color="primary" position="absolute" open={openDrawer}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -47,7 +62,7 @@ export const MainLayout: React.FC<Props> = ({ children }: Props) => {
               onClick={toggleDrawer}
               sx={{
                 marginRight: '36px',
-                ...(open && { display: 'none' }),
+                ...(openDrawer && { display: 'none' }),
               }}
             >
               <MenuIcon />
@@ -58,7 +73,7 @@ export const MainLayout: React.FC<Props> = ({ children }: Props) => {
             <Typography>{user}</Typography>
           </Toolbar>
         </AppBarComponent>
-        <DrawerComponent variant="permanent" open={open}>
+        <DrawerComponent variant="permanent" open={openDrawer}>
           <Toolbar
             sx={{
               display: 'flex',
@@ -90,6 +105,31 @@ export const MainLayout: React.FC<Props> = ({ children }: Props) => {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8} lg={9}>
+                {errorMsg && (
+                  <Grid item sx={{ m: 2 }}>
+                    <Collapse in={openErrorMsg}>
+                      <Alert
+                        action={
+                          <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                              setOpenErrorMsg(false);
+                            }}
+                          >
+                            <CloseIcon fontSize="inherit" />
+                          </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                        severity="error"
+                      >
+                        {' '}
+                        {errorMsg}
+                      </Alert>
+                    </Collapse>
+                  </Grid>
+                )}
                 {children}
               </Grid>
             </Grid>

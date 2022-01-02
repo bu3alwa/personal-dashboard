@@ -1,6 +1,8 @@
+import { errorMsgState } from '@/states/errorMsg';
 import { trpc } from '@/utils/trpc';
 import { ListItem, Box, TextField, Button } from '@mui/material';
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 /**
  * Component for adding task on task page
@@ -8,7 +10,7 @@ import React, { useState } from 'react';
  */
 const AddTaskComponent: React.FC = () => {
   const [task, setTask] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [_, setErrorMsg] = useRecoilState(errorMsgState);
 
   const mutation = trpc.useMutation(['task.create'], {
     onSuccess: async () => {

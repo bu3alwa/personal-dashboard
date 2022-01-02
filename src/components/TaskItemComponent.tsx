@@ -4,6 +4,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import { trpc } from '@/utils/trpc';
+import { useRecoilState } from 'recoil';
+import { errorMsgState } from '@/states/errorMsg';
 
 type Props = {
   id: string;
@@ -16,7 +18,7 @@ type Props = {
  */
 const TaskItem: React.FC<Props> = ({ task, id }: Props) => {
   const [edit, setEdit] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [_, setErrorMsg] = useRecoilState(errorMsgState);
   const [taskState, setTaskState] = useState(task);
 
   const mutationDelete = trpc.useMutation(['task.delete'], {
