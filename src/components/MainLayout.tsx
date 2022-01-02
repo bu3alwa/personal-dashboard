@@ -10,6 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useRecoilState } from 'recoil';
 import { titleState } from '@/states/title';
+import { useSession } from 'next-auth/react';
 
 // prop definition
 type Props = {
@@ -22,6 +23,8 @@ type Props = {
 export const MainLayout: React.FC<Props> = ({ children }: Props) => {
   const [title] = useRecoilState(titleState);
   const [open, setOpen] = React.useState(true);
+  const session = useSession();
+  const user = session.data?.user?.name;
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -52,6 +55,7 @@ export const MainLayout: React.FC<Props> = ({ children }: Props) => {
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
               {title}
             </Typography>
+            <Typography>{user}</Typography>
           </Toolbar>
         </AppBarComponent>
         <DrawerComponent variant="permanent" open={open}>
