@@ -2,7 +2,7 @@
   "name": "next-app",
   "private": true,
   "scripts": {
-    "dev": "dotenv -e .env.development -- next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

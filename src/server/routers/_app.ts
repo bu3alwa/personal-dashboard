@@ -6,6 +6,7 @@ import { createRouter } from '../createRouter';
 import { taskRouter } from './task';
 import { userRouter } from './user';
 import { feedRouter } from './feed';
+import { marketRouter } from './market';
 
 /**
  * Create your application's root router
@@ -26,6 +27,7 @@ export const appRouter = createRouter()
   // .formatError(({ shape, error }) => { })
   .merge('user.', userRouter)
   .merge('task.', taskRouter)
-  .merge('feed.', feedRouter);
+  .merge('feed.', feedRouter)
+  .merge('market.', marketRouter);
 
 export type AppRouter = typeof appRouter;

@@ -8,6 +8,12 @@ import logger from './logger';
 export const MONGODB_URI: string = process.env.DB_URI ?? '';
 export const JWT_SECRET: string = process.env.JWT_SECRET ?? '';
 export const SECRET: string = process.env.SECRET ?? '';
+export const RAPID_API_KEY: string = process.env.RAPID_API_KEY ?? '';
+
+if (RAPID_API_KEY == '') {
+  logger.error('Please define the RAPID_API_KEY environment variable inside .env.local');
+  process.exit(1);
+}
 
 if (MONGODB_URI == '') {
   logger.error('Please define the DB_URI environment variable inside .env.local');
