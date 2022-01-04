@@ -5,6 +5,7 @@ import superjson from 'superjson';
 import { createRouter } from '../createRouter';
 import { taskRouter } from './task';
 import { userRouter } from './user';
+import { feedRouter } from './feed';
 
 /**
  * Create your application's root router
@@ -24,6 +25,7 @@ export const appRouter = createRouter()
    */
   // .formatError(({ shape, error }) => { })
   .merge('user.', userRouter)
-  .merge('task.', taskRouter);
+  .merge('task.', taskRouter)
+  .merge('feed.', feedRouter);
 
 export type AppRouter = typeof appRouter;
