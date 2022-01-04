@@ -30,8 +30,8 @@ Todo:
 - [x] Task list feature
 - [x] News reader rss feature
 - [x] Finacial top gainers and loser feature
-- [] Dashboard page
-- [] unit testing
+- [ ] Dashboard page
+- [ ] unit testing
 
 Future Work:
 
