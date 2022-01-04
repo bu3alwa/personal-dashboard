@@ -1,4 +1,5 @@
-This is a work in progress of a personal dashboard where it fits daily needs and wants in one location.
+This is a personal dashboard that has daily
+needs such as: RSS Feeds, Market Data,
 
 ## Getting Started
 
@@ -26,7 +27,14 @@ Todo:
 - [x] Authentication with passport jwt
 - [x] Mongoose implementation
 - [x] Migrate authentication and ORM to prisma and nextauth
-- [] Task list feature
-- [] News reader rss feature
-- [] Finacial top gainers and loser feature
+- [x] Task list feature
+- [x] News reader rss feature
+- [x] Finacial top gainers and loser feature
 - [] Dashboard page
+- [] unit testing
+
+Future Work:
+
+- Add custom rss links given by user
+- Switch to tailwind css
+- Add twitter feed
